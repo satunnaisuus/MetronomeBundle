@@ -43,7 +43,7 @@ class CreateAction extends AbstractAction
                 $form->clearErrors(true);
             }
 
-            return $this->render('@Admin/crud/form.html.twig', array_merge($this->getViewParameters($context), [
+            return $this->render('@MetronomeBundle/crud/form.html.twig', array_merge($this->getViewParameters($context), [
                 'form' => $form->createView(),
             ]));
         } else if ($form->isSubmitted() && $form->isValid()) {
@@ -63,7 +63,7 @@ class CreateAction extends AbstractAction
             }
         }
 
-        return $this->render('@Admin/crud/action_create.html.twig', array_merge($this->getViewParameters($context), [
+        return $this->render('@MetronomeBundle/crud/action_create.html.twig', array_merge($this->getViewParameters($context), [
             'form' => $form->createView(),
         ]));
     }
@@ -79,7 +79,7 @@ class CreateAction extends AbstractAction
     {
         parent::configureOptions($resolver);
 
-        $resolver->setDefault('template', '@Admin/crud/button/create.html.twig');
+        $resolver->setDefault('template', '@MetronomeBundle/crud/button/create.html.twig');
         $resolver->setDefault('label', 'Создать');
         $resolver->setDefault('inheritance_mapping', []);
         $resolver->setDefault('inheritance_route_param', 'type');

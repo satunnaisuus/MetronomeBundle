@@ -74,13 +74,13 @@
             </thead>
             <tbody class="data-table__body">
             {% for row in data.items %}
-                {{ include('@Admin/crud/table/row.html.twig', {config: config, row: row, entity_actions: entity_actions, resourceName: resourceName}) }}
+                {{ include('@MetronomeBundle/crud/table/row.html.twig', {config: config, row: row, entity_actions: entity_actions, resourceName: resourceName}) }}
             {% endfor %}
             </tbody>
         </table>
     </div>
     <div class="table-widget__footer">
-        {{ include('@Admin/crud/pagination.html.twig', {total: data.count, perPage: data.itemsPerPage, currentPage: query.page}) }}
+        {{ include('@MetronomeBundle/crud/pagination.html.twig', {total: data.count, perPage: data.itemsPerPage, currentPage: query.page}) }}
         <div class="table-widget__total">Всего элементов: {{ data.count }}</div>
     </div>
 </div>

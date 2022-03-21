@@ -1,4 +1,4 @@
-{% extends '@Admin/layout.html.twig' %}
+{% extends '@MetronomeBundle/layout.html.twig' %}
 
 {% block body %}
     <div class="action-header">
@@ -8,7 +8,7 @@
     </div>
     <div>
         {% for element in elements %}
-            {{ include('@Admin/crud/detailed/element.html.twig', {element: element, entity: entity}) }}
+            {{ include('@MetronomeBundle/crud/detailed/element.html.twig', {element: element, entity: entity}) }}
         {% endfor %}
     </div>
 {% endblock %}

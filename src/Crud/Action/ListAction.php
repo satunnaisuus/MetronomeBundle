@@ -51,7 +51,7 @@ class ListAction extends AbstractAction
         );
 
         return $this->render(
-            '@Admin/crud/' . ($request->isXmlHttpRequest() ? 'list.html.twig' : 'action_list.html.twig'),
+            '@MetronomeBundle/crud/' . ($request->isXmlHttpRequest() ? 'list.html.twig' : 'action_list.html.twig'),
             array_merge($this->getViewParameters($context), [
                 'data' => $data,
                 'config' => $listConfigurator,

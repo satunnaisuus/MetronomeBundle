@@ -22,9 +22,9 @@
             {% endif %}
 
             {% if value is same as(null) %}
-                {{ include('@Admin/crud/field/null.html.twig') }}
+                {{ include('@MetronomeBundle/crud/field/null.html.twig') }}
             {% else %}
-                {{ include('@Admin/crud/field/' ~ column.type ~ '.html.twig', {value: value }) }}
+                {{ include('@MetronomeBundle/crud/field/' ~ column.type ~ '.html.twig', {value: value }) }}
             {% endif %}
         </td>
     {% endfor %}
@@ -61,6 +61,6 @@
 </tr>
 {% if row.childs|length > 0 %}
     {% for childRow in row.childs %}
-        {{ include('@Admin/crud/table/row.html.twig', {config: config, row: childRow, entity_actions: entity_actions, resourceName: resourceName, parentId: row.entity.id}) }}
+        {{ include('@MetronomeBundle/crud/table/row.html.twig', {config: config, row: childRow, entity_actions: entity_actions, resourceName: resourceName, parentId: row.entity.id}) }}
     {% endfor %}
 {% endif %}

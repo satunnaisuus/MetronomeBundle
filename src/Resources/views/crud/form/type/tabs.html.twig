@@ -17,7 +17,7 @@
             {% for tab in element.options.tabs %}
                 {% set active = activeTabId is null ? loop.first : (activeTabId == tab.options.id) %}
                 <div class="tab-pane fade {% if active %}show active{% endif %}" id="tab-{{ tab.options.id }}">
-                    {{ include('@Admin/crud/form/element.html.twig', {element: tab}) }}
+                    {{ include('@MetronomeBundle/crud/form/element.html.twig', {element: tab}) }}
                 </div>
             {% endfor %}
         </div>
@@ -41,7 +41,7 @@
             {% for tab in element.options.tabs %}
                 {% set active = activeTabId is null ? loop.first : (activeTabId == tab.options.id) %}
                 <div class="tab-pane fade {% if active %}show active{% endif %}" id="tab-{{ tab.options.id }}">
-                    {{ include('@Admin/crud/form/element.html.twig', {element: tab}) }}
+                    {{ include('@MetronomeBundle/crud/form/element.html.twig', {element: tab}) }}
                 </div>
             {% endfor %}
         </div>

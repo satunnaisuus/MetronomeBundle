@@ -10,6 +10,6 @@ class IndexAction extends AbstractAction
 {
     public function handle(AdminContext $context): Response
     {
-        return $this->render('@Admin/dashboard/index.html.twig', $this->getViewParameters($context));
+        return $this->render('@MetronomeBundle/dashboard/index.html.twig', $this->getViewParameters($context));
     }
 }

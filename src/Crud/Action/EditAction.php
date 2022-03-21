@@ -50,7 +50,7 @@ class EditAction extends AbstractAction
                 $form->clearErrors(true);
             }
 
-            return $this->render('@Admin/crud/form.html.twig', array_merge($this->getViewParameters($context), [
+            return $this->render('@MetronomeBundle/crud/form.html.twig', array_merge($this->getViewParameters($context), [
                 'form' => $form->createView(),
             ]));
         } else if ($form->isSubmitted() && $form->isValid()) {
@@ -70,7 +70,7 @@ class EditAction extends AbstractAction
             }
         }
 
-        return $this->render('@Admin/crud/action_edit.html.twig', array_merge($this->getViewParameters($context), [
+        return $this->render('@MetronomeBundle/crud/action_edit.html.twig', array_merge($this->getViewParameters($context), [
             'form' => $form->createView(),
         ]));
     }

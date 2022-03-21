@@ -1,7 +1,7 @@
 {% set value = attribute(entity, element.options.property) %}
 
 {% if value is same as(null) %}
-    {{ include('@Admin/crud/field/null.html.twig') }}
+    {{ include('@MetronomeBundle/crud/field/null.html.twig') }}
 {% else %}
-    {{ include('@Admin/crud/field/' ~ element.options.inner_type.type ~ '.html.twig', {value: value }) }}
+    {{ include('@MetronomeBundle/crud/field/' ~ element.options.inner_type.type ~ '.html.twig', {value: value }) }}
 {% endif %}

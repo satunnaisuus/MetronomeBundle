@@ -1,6 +1,6 @@
 {% form_theme form with [
     'bootstrap_5_layout.html.twig',
-    '@Admin/crud/form/theme.html.twig',
+    '@MetronomeBundle/crud/form/theme.html.twig',
 ] %}
 
 {{ form_start(form) }}
@@ -9,6 +9,6 @@
     </div>
     {{ form_errors(form) }}
     {% for element in form.vars.elements %}
-        {{ include('@Admin/crud/form/element.html.twig', {element: element}) }}
+        {{ include('@MetronomeBundle/crud/form/element.html.twig', {element: element}) }}
     {% endfor %}
 {{ form_end(form) }}
