@@ -1,0 +1,10 @@
+<li class="admin-menu__item {% if item.active %}admin-menu__item--active{% endif %}">
+    <a href="{{ url(app.request.attributes.get('_route'), {resource: item.resource, action: item.action}) }}" class="admin-menu__link">
+        {% if item.options.icon %}
+            <span class="admin-menu__icon">
+                <i class="bi bi-{{ item.options.icon }}"></i>
+            </span>
+        {% endif %}
+        <span>{{ item.label }}</span>
+    </a>
+</li>

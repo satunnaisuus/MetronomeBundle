@@ -1,0 +1,5 @@
+<ul class="admin-menu">
+    {% for item in menu.items %}
+        {{ include('@Admin/menu/item_' ~ item.type ~ '_type.html.twig', {item: item}) }}
+    {% endfor %}
+</ul>

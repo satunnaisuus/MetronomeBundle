@@ -1,0 +1,14 @@
+{% extends '@Admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="action-header">
+        {% for action in global_actions|filter(action => not action.hidden) %}
+            {{ include(action.template, {action: action}) }}
+        {% endfor %}
+    </div>
+    <div class="card" data-controller="admin-data-table">
+        <div class="card-body">
+            {{ include('@Admin/crud/list.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

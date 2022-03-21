@@ -1,0 +1,28 @@
+.data-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.data-pagination__item {
+  border: 2px solid transparent;
+  border-radius: $border-radius;
+}
+
+.data-pagination__item--active {
+  border-color: $primary;
+}
+
+.data-pagination__link {
+  color: #000;
+  background: transparent;
+  border: 0;
+  display: block;
+  padding: 0 8px;
+  line-height: 30px;
+  min-width: 30px;
+  text-align: center;
+  text-decoration: none;
+}

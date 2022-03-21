@@ -1,0 +1,16 @@
+version: '3'
+services:
+  php-cli:
+    build:
+      context: ./docker/php-cli
+    volumes:
+      - ./:/bundle
+    user: ${UID}:${GID}
+    environment:
+      HOME: /tmp
+  node:
+    user: ${UID}:${GID}
+    image: 'node:14.17-buster'
+    volumes:
+      - ./:/bundle
+    working_dir: '/bundle'

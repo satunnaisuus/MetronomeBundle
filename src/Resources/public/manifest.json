@@ -1,0 +1,8 @@
+{
+  "bundles/metronome/admin.css": "/bundles/metronome/admin.css",
+  "bundles/metronome/admin.js": "/bundles/metronome/admin.js",
+  "bundles/metronome/runtime.js": "/bundles/metronome/runtime.js",
+  "bundles/metronome/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_bootstrap_dist_js_boo-7e3309.js": "/bundles/metronome/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_bootstrap_dist_js_boo-7e3309.js",
+  "bundles/metronome/fonts/bootstrap-icons.woff": "/bundles/metronome/fonts/bootstrap-icons.c1d7432e.woff",
+  "bundles/metronome/fonts/bootstrap-icons.woff2": "/bundles/metronome/fonts/bootstrap-icons.a13b8155.woff2"
+}

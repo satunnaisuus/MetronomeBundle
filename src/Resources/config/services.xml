@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="metronome.name" />
+    </parameters>
+
+    <services>
+        <service id="Satunnaisuus\MetronomeBundle\Controller\AdminController" class="Satunnaisuus\MetronomeBundle\Controller\AdminController" public="true" autowire="true">
+            <tag name="container.service_subscriber" />
+            <tag name="controller.service_arguments" />
+        </service>
+
+        <service id="Satunnaisuus\MetronomeBundle\Controller\AjaxUploaderController" class="Satunnaisuus\MetronomeBundle\Controller\AjaxUploaderController" public="true" autowire="true">
+            <tag name="container.service_subscriber" />
+            <tag name="controller.service_arguments" />
+        </service>
+
+        <instanceof id="Satunnaisuus\MetronomeBundle\AbstractAction">
+            <call method="setContainer">
+                <argument type="service" id="Psr\Container\ContainerInterface" />
+            </call>
+            <tag name="container.service_subscriber" />
+        </instanceof>
+
+        <instanceof id="Satunnaisuus\MetronomeBundle\AbstractResource">
+            <call method="setContainer">
+                <argument type="service" id="Psr\Container\ContainerInterface" />
+            </call>
+            <tag name="container.service_subscriber" />
+        </instanceof>
+
+        <service id="Satunnaisuus\MetronomeBundle\ActionsBuilder" class="Satunnaisuus\MetronomeBundle\ActionsBuilder" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\EntityClassConfigurator" class="Satunnaisuus\MetronomeBundle\Crud\EntityClassConfigurator" public="true" autowire="true" />
+
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\CreateAction" class="Satunnaisuus\MetronomeBundle\Crud\Action\CreateAction" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\ListAction" class="Satunnaisuus\MetronomeBundle\Crud\Action\ListAction" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\PickerAction" class="Satunnaisuus\MetronomeBundle\Crud\Action\PickerAction" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\DeleteAction" class="Satunnaisuus\MetronomeBundle\Crud\Action\DeleteAction" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\EditAction" class="Satunnaisuus\MetronomeBundle\Crud\Action\EditAction" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\DetailedAction" class="Satunnaisuus\MetronomeBundle\Crud\Action\DetailedAction" public="true" autowire="true" />
+
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\ListAction\DataFetcher" class="Satunnaisuus\MetronomeBundle\Crud\Action\ListAction\DataFetcher" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\ListAction\ListConfiguratorFactory" class="Satunnaisuus\MetronomeBundle\Crud\Action\ListAction\ListConfiguratorFactory" public="true" autowire="true" />
+
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\DetailedAction\DetailedViewMapperFactory" class="Satunnaisuus\MetronomeBundle\Crud\Action\DetailedAction\DetailedViewMapperFactory" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\DetailedAction\ElementTypeFactory" class="Satunnaisuus\MetronomeBundle\Crud\Action\DetailedAction\ElementTypeFactory" public="true" autowire="true" />
+
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\DetailedAction\ElementType\PropertyType" class="Satunnaisuus\MetronomeBundle\Crud\Action\DetailedAction\ElementType\PropertyType" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\DetailedAction\ElementType\CardType" class="Satunnaisuus\MetronomeBundle\Crud\Action\DetailedAction\ElementType\CardType" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\DetailedAction\ElementType\ListType" class="Satunnaisuus\MetronomeBundle\Crud\Action\DetailedAction\ElementType\ListType" public="true" autowire="true" />
+
+        <service id="Satunnaisuus\MetronomeBundle\Crud\FieldTypeGuesser" class="Satunnaisuus\MetronomeBundle\Crud\FieldTypeGuesser" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\FieldTypeContainer" class="Satunnaisuus\MetronomeBundle\Crud\FieldTypeContainer" public="true" autowire="true" />
+
+        <service id="Satunnaisuus\MetronomeBundle\Crud\FieldType\DefaultType" class="Satunnaisuus\MetronomeBundle\Crud\FieldType\DefaultType" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\FieldType\RelationType" class="Satunnaisuus\MetronomeBundle\Crud\FieldType\RelationType" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\FieldType\BooleanType" class="Satunnaisuus\MetronomeBundle\Crud\FieldType\BooleanType" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\FieldType\DatetimeType" class="Satunnaisuus\MetronomeBundle\Crud\FieldType\DatetimeType" public="true" autowire="true" />
+
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\ListAction\FilterType\SearchFilterType" class="Satunnaisuus\MetronomeBundle\Crud\Action\ListAction\FilterType\SearchFilterType" public="true" autowire="true" />
+
+        <service id="Satunnaisuus\MetronomeBundle\Dashboard\DashboardResource" class="Satunnaisuus\MetronomeBundle\Dashboard\DashboardResource" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Dashboard\IndexAction" class="Satunnaisuus\MetronomeBundle\Dashboard\IndexAction" public="true" autowire="true" />
+
+        <service id="Satunnaisuus\MetronomeBundle\Twig\TwigExtension" class="Satunnaisuus\MetronomeBundle\Twig\TwigExtension" public="true" autowire="true">
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\Form\CrudFormFactory" class="Satunnaisuus\MetronomeBundle\Crud\Action\Form\CrudFormFactory" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementTypeFactory" class="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementTypeFactory" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormMapper" class="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormMapper" public="true" autowire="true" />
+
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\CardType" class="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\CardType" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\CollectionEntryDeleteButton" class="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\CollectionEntryDeleteButton" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\ColumnType" class="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\ColumnType" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\FormInputType" class="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\FormInputType" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\FormLabelType" class="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\FormLabelType" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\FormWidgetType" class="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\FormWidgetType" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\RowType" class="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\RowType" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\TabsType" class="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\TabsType" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\TabType" class="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\TabType" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\TextType" class="Satunnaisuus\MetronomeBundle\Crud\Action\Form\FormElementType\TextType" public="true" autowire="true" />
+
+        <service id="Satunnaisuus\MetronomeBundle\Form\Type\ResourcePickerType" class="Satunnaisuus\MetronomeBundle\Form\Type\ResourcePickerType" public="true" autowire="true" autoconfigure="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Form\Type\AjaxUploaderType" class="Satunnaisuus\MetronomeBundle\Form\Type\AjaxUploaderType" public="true" autowire="true" autoconfigure="true" />
+
+        <service id="Satunnaisuus\MetronomeBundle\Service\FileUploader" class="Satunnaisuus\MetronomeBundle\Service\FileUploader" public="true" autowire="true" />
+        <service id="Satunnaisuus\MetronomeBundle\Service\FileUrlGenerator" class="Satunnaisuus\MetronomeBundle\Service\FileUrlGenerator" public="true" autowire="true" />
+    </services>
+</container>

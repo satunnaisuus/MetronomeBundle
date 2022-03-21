@@ -1,0 +1,3 @@
+<a href="{{ url(app.request.attributes.get('_route'), {resource: app.request.get('resource'), action: action.name, entity_id: entity.id}) }}" class="btn btn-{{ action.color }}" {% if action.confirmation %}data-controller="action-confirmation" data-action-confirmation-message-value="{{ action.confirmationMessage|e('html_attr') }}" data-action-confirmation-csrf-value="{{ csrf_token('admin') }}"{% endif %}>
+    {% if action.icon %}<i class="bi bi-{{ action.icon }}"></i>{% endif %} {{ action.label }}
+</a>

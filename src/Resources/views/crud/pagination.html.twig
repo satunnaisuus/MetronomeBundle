@@ -1,0 +1,43 @@
+{% if perPage is not null and perPage > 0 %}
+    {% set lastPage = max(1, (total / perPage)|round(0, 'ceil')) %}
+    {% set delta = 2 %}
+    {% set left = (1 + delta) >= (currentPage - delta) ? 2 : (currentPage - delta) %}
+    {% set right = (lastPage - delta) <= (currentPage + delta) ? (lastPage - 1) : (currentPage + delta) %}
+    {% if lastPage != 1 %}
+        <ul class="data-pagination" data-role="pagination">
+            {{ _self.page_item(1, currentPage == 1) }}
+
+            {% if left > 2 %}
+                {{ _self.dots(2, left - 1) }}
+            {% endif %}
+
+            {% if left <= right %}
+                {% for i in range(left, right) %}
+                    {{ _self.page_item(i, currentPage == i) }}
+                {% endfor %}
+            {% endif %}
+
+            {% if right < lastPage - 1 %}
+                {{ _self.dots(right + 1, lastPage - 1) }}
+            {% endif %}
+
+            {{ _self.page_item(lastPage, currentPage == lastPage) }}
+        </ul>
+    {% endif %}
+{% endif %}
+
+{% macro page_item(number, active) %}
+    <li class="data-pagination__item {% if active %}data-pagination__item--active{% endif %}">
+        {% if active %}
+            <span class="data-pagination__link">{{ number }}</span>
+        {% else %}
+            <a href="{{ url(app.request.attributes.get('_route'), app.request.query.all|merge({page: number})) }}" class="data-pagination__link">{{ number }}</a>
+        {% endif %}
+    </li>
+{% endmacro %}
+
+{% macro dots(from, to) %}
+    <li class="data-pagination__item">
+        <button class="data-pagination__link" type="button" data-from="{{ from }}" data-to="{{ to }}">...</button>
+    </li>
+{% endmacro %}

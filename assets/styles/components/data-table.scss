@@ -1,0 +1,69 @@
+.data-table {
+  width: 100%;
+  background: #fff;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.data-table__cell {
+  padding: 5px 10px;
+}
+
+.data-table__cell-link {
+  text-decoration: none;
+  color: $gray-700;
+
+  .data-table__cell-name {
+    border-bottom: 1px solid $gray-700;
+  }
+
+  &:hover .data-table__cell-name {
+    border-color: $primary;
+  }
+}
+
+.data-table__body {
+  .data-table__row:hover .data-table__cell {
+    background: #f0f0f0;
+  }
+}
+
+.data-table__cell--head {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  border-bottom: 1px solid #dddddd;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-weight: normal;
+  color: $gray-700;
+}
+
+.data-table__cell--actions {
+  text-align: right;
+  padding-right: 0;
+}
+
+.data-table__tree-toggle {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  margin: 0;
+  padding: 0;
+}
+
+.data-table__tree-toggle--empty {
+
+}
+
+.data-table__row {
+  &--opened {
+    .data-table__tree-toggle .bi {
+      transform: rotateZ(-45deg);
+    }
+  }
+}

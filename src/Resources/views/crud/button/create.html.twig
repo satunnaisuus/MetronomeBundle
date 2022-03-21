@@ -1,0 +1,16 @@
+{% if action.inheritance_mapping|length == 0 %}
+    <a href="{{ url(app.request.attributes.get('_route'), {resource: resourceName, action: action.name}) }}" class="btn btn-{{ action.color }}">
+        {% if action.icon %}<i class="bi bi-{{ action.icon }}"></i>{% endif %} {{ action.label }}
+    </a>
+{% else %}
+    <div class="dropdown d-inline-block">
+        <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+            {% if action.icon %}<i class="bi bi-{{ action.icon }}"></i>{% endif %} {{ action.label }}
+        </button>
+        <ul class="dropdown-menu">
+            {% for config in action.inheritance_mapping %}
+                <li><a class="dropdown-item" href="{{ url(app.request.attributes.get('_route'), {resource: resourceName, action: action.name, (action.inheritance_route_param): config.name}) }}">{{ config.label }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}

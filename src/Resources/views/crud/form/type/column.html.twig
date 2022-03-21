@@ -1,0 +1,5 @@
+<div class="col">
+    {% for element in element.options.elements %}
+        {{ include('@Admin/crud/form/element.html.twig', {element: element}) }}
+    {% endfor %}
+</div>

@@ -1,0 +1,35 @@
+.table-widget {
+  //background: #fff;
+  //border-radius: $border-radius;
+  //padding: 15px;
+  //box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.table-widget__header {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.table-widget__table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-widget__table {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.table-widget__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.table-widget__total {
+}
+
+.table-widget__search-wrapper {
+  display: flex;
+}

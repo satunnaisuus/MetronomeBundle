@@ -1,0 +1,49 @@
+{% set activeTabId = attribute(form.vars.state, element.options.id)|default(null) %}
+
+{% if element.options.vertical %}
+    <div class="vertical-tabs">
+        <div class="list-group vertical-tabs__list-group">
+            {% for tab in element.options.tabs %}
+                {% set active = activeTabId is null ? loop.first : (activeTabId == tab.options.id) %}
+                <button type="button" class="vertical-tabs__nav-link list-group-item list-group-item-action {% if active %}active{% endif %}" data-action="crud-form#changeState" data-crud-form-key-param="{{ element.options.id }}" data-crud-form-value-param="{{ tab.options.id }}" data-bs-toggle="tab" data-bs-target="#tab-{{ tab.options.id }}">
+                    {{ tab.options.label }}
+                    {% if CrudFormHasErrors(form, tab) %}
+                        <i class="bi bi-exclamation-triangle-fill text-danger"></i>
+                    {% endif %}
+                </button>
+            {% endfor %}
+        </div>
+        <div class="vertical-tabs__tab-content tab-content">
+            {% for tab in element.options.tabs %}
+                {% set active = activeTabId is null ? loop.first : (activeTabId == tab.options.id) %}
+                <div class="tab-pane fade {% if active %}show active{% endif %}" id="tab-{{ tab.options.id }}">
+                    {{ include('@Admin/crud/form/element.html.twig', {element: tab}) }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% else %}
+    <div class="horizontal-tabs">
+        <nav>
+            <div class="nav nav-tabs horizontal-tabs__nav">
+                {% for tab in element.options.tabs %}
+                    {% set active = activeTabId is null ? loop.first : (activeTabId == tab.options.id) %}
+                    <button class="horizontal-tabs__nav-link nav-link {% if active %}active{% endif %}" data-action="crud-form#changeState" data-crud-form-key-param="{{ element.options.id }}" data-crud-form-value-param="{{ tab.options.id }}" data-bs-toggle="tab" data-bs-target="#tab-{{ tab.options.id }}" type="button">
+                        {{ tab.options.label }}
+                        {% if CrudFormHasErrors(form, tab) %}
+                            <i class="bi bi-exclamation-triangle-fill text-danger"></i>
+                        {% endif %}
+                    </button>
+                {% endfor %}
+            </div>
+        </nav>
+        <div class="horizontal-tabs__tab-content tab-content">
+            {% for tab in element.options.tabs %}
+                {% set active = activeTabId is null ? loop.first : (activeTabId == tab.options.id) %}
+                <div class="tab-pane fade {% if active %}show active{% endif %}" id="tab-{{ tab.options.id }}">
+                    {{ include('@Admin/crud/form/element.html.twig', {element: tab}) }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}

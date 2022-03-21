@@ -1,0 +1,23 @@
+<div class="card mb-3">
+    {% if element.options.header|length > 0 %}
+        <div class="card-header">
+            {% for headerElement in element.options.header %}
+                {{ include('@Admin/crud/detailed/element.html.twig', {element: headerElement, entity: entity}) }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if element.options.body|length > 0 %}
+        <div class="card-body">
+            {% for bodyElement in element.options.body %}
+                {{ include('@Admin/crud/detailed/element.html.twig', {element: bodyElement, entity: entity}) }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if element.options.footer|length > 0 %}
+        <div class="card-footer">
+            {% for footerElement in element.options.footer %}
+                {{ include('@Admin/crud/detailed/element.html.twig', {element: footerElement, entity: entity}) }}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

@@ -1,0 +1,18 @@
+<li class="admin-menu__item admin-menu__item--group {% if item.active %}admin-menu__item--active{% endif %}">
+    <a href="#{{ item.label|slug }}" class="admin-menu__link {% if not item.active %}collapsed{% endif %}" data-bs-toggle="collapse" role="button" aria-expanded="{{ item.active ? 'true' : 'false' }}" aria-controls="{{ item.label|slug }}">
+        {% if item.options.icon %}
+            <span class="admin-menu__icon">
+                <i class="bi bi-{{ item.options.icon }}"></i>
+            </span>
+        {% endif %}
+        <span>{{ item.label }}</span>
+        <span class="admin-menu__caret">
+            <i class="bi bi-caret-down-fill"></i>
+        </span>
+    </a>
+    <ul class="admin-menu collapse {% if item.active %}show{% endif %}" id="{{ item.label|slug }}">
+        {% for subitem in item.items %}
+            {{ include('@Admin/menu/item_' ~ subitem.type ~ '_type.html.twig', {item: subitem}) }}
+        {% endfor %}
+    </ul>
+</li>

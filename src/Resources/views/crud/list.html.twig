@@ -1,0 +1,86 @@
+<div class="table-widget" data-id="{{ config.id }}" data-csrf="{{ csrf_token('admin') }}" data-role="table-widget" data-url="{{ app.request.requestUri }}">
+    <div class="filters" data-role="filters">
+        <div class="filters__backdrop" data-role="close-filters"></div>
+        <button class="btn btn-dark filters__close" data-role="close-filters"><i class="bi bi-x-lg"></i></button>
+        <div class="filters__panel">
+            <div class="filters__container">
+                {% form_theme filterForm 'bootstrap_5_layout.html.twig' %}
+                {{ form_start(filterForm) }}
+                {{ form_widget(filterForm) }}
+                {% for chunk in app.request.query.all|filter((v, k) => k != 'filter' and k != 'page')|url_encode|split('&') %}
+                    {% set param = chunk|split('=') %}
+                    <input name="{{ param[0]|urldecode }}" type="hidden" value="{{ param[1]|urldecode|e('html_attr') }}">
+                {% endfor %}
+                <button class="btn btn-primary w-100" type="submit">Применить</button>
+                {{ form_end(filterForm) }}
+            </div>
+        </div>
+    </div>
+    <div class="table-widget__header">
+        <div class="table-widget__search-wrapper">
+            {% if config.searchableFields|length > 0 %}
+                <form class="me-2" action="{{ app.request.pathinfo }}" name="search" method="get">
+                    <div class="input-group">
+                        <input name="searchQuery" type="text" class="form-control" placeholder="Поиск..." value="{{ query.searchQuery|e('html_attr') }}">
+                        {% for chunk in app.request.query.all|filter((v, k) => k != 'searchQuery')|url_encode|split('&') %}
+                            {% set param = chunk|split('=') %}
+                            <input name="{{ param[0]|urldecode }}" type="hidden" value="{{ param[1]|urldecode|e('html_attr') }}">
+                        {% endfor %}
+                        {% if query.searchQuery %}
+                            <a data-role="reset-search" href="{{ url(app.request.attributes.get('_route'), app.request.query.all|merge({page: 1, searchQuery: ''})) }}" class="btn btn-outline-secondary bg-transparent text-secondary"><i class="bi bi-x-lg"></i></a>
+                        {% endif %}
+                        <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
+                    </div>
+                </form>
+            {% endif %}
+            {% if config.filters|length > 0 %}
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" data-role="open-filters"><i class="bi bi-funnel"></i></button>
+                    {% if query.filters|length > 0 %}
+                        <a data-role="reset-filters" class="btn btn-outline-secondary bg-transparent text-secondary" href="{{ url(app.request.attributes.get('_route'), app.request.query.all|filter((v, k) => k != 'filter')) }}"><i class="bi bi-x-lg"></i></a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="table-widget__table-container">
+        <table class="data-table table-widget__table" data-role="table">
+            <thead class="data-table__head">
+            <tr class="data-table__row">
+                {% if config.showCheckboxes %}
+                    <th class="data-table__cell data-table__cell--head data-table__cell--checkbox">
+                        <span class="form-check">
+                            <input class="form-check-input" type="checkbox" data-role="check-all">
+                        </span>
+                    </th>
+                {% endif %}
+                {% for column in config.columns %}
+                    <th class="data-table__cell data-table__cell--head">
+                        {% if column.getOption('property_sort') is not null %}
+                            {% set isActive = column.propertyPath == query.sortField %}
+                            <a href="{{ url(app.request.attributes.get('_route'), app.request.query.all|merge({page: 1, sortField: column.propertyPath, sortReverse: isActive ? (query.sortReverse ? 0 : 1) : 0})) }}" class="data-table__cell-link {% if isActive %}active{% endif %}" data-role="sort">
+                                <span class="data-table__cell-name">{{ column.options.label }}</span>
+                                {% if isActive %}
+                                    <i class="bi bi-{{ query.sortReverse ? 'arrow-down-short' : 'arrow-up-short' }}"></i>
+                                {% endif %}
+                            </a>
+                        {% else %}
+                            {{ column.options.label }}
+                        {% endif %}
+                    </th>
+                {% endfor %}
+                <th class="data-table__cell data-table__cell--head data-table__cell--actions"></th>
+            </tr>
+            </thead>
+            <tbody class="data-table__body">
+            {% for row in data.items %}
+                {{ include('@Admin/crud/table/row.html.twig', {config: config, row: row, entity_actions: entity_actions, resourceName: resourceName}) }}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="table-widget__footer">
+        {{ include('@Admin/crud/pagination.html.twig', {total: data.count, perPage: data.itemsPerPage, currentPage: query.page}) }}
+        <div class="table-widget__total">Всего элементов: {{ data.count }}</div>
+    </div>
+</div>

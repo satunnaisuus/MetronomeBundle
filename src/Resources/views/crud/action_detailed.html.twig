@@ -1,0 +1,14 @@
+{% extends '@Admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="action-header">
+        {% for action in entity_actions|filter(action => not action.hidden) %}
+            {{ include(action.template, {action: action, entity_id: entity.id}) }}
+        {% endfor %}
+    </div>
+    <div>
+        {% for element in elements %}
+            {{ include('@Admin/crud/detailed/element.html.twig', {element: element, entity: entity}) }}
+        {% endfor %}
+    </div>
+{% endblock %}

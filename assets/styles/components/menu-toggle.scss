@@ -1,0 +1,40 @@
+.menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  font-size: 32px;
+  position: fixed;
+  bottom: 7px;
+  line-height: 1;
+  left: 7px;
+  z-index: 99;
+  border-radius: 100%;
+  background: $dark;
+  color: #fff;
+
+  @include media-breakpoint-down($sidebar-show-breakpoint) {
+    display: flex;
+  }
+}
+
+.menu-toggle__icon-close {
+  display: none;
+}
+
+.menu-toggle__icon-open {
+
+}
+
+.menu-toggle__opened {
+  .menu-toggle__icon-close {
+    display: inline-block;
+  }
+
+  .menu-toggle__icon-open {
+    display: none;
+  }
+}

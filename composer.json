@@ -1,0 +1,44 @@
+{
+  "name": "satunnaisuus/metronome-bundle",
+  "type": "symfony-bundle",
+  "description": "Admin panel constructor for Symfony",
+  "keywords": ["admin"],
+  "homepage": "https://github.com/satunnaisuus/MetronomeBundle",
+  "license": "MIT",
+  "require": {
+    "php": ">=8.1",
+    "ext-json": "*",
+    "doctrine/annotations": "^1.0",
+    "doctrine/doctrine-bundle": "^2.4",
+    "doctrine/orm": "^2.9",
+    "symfony/framework-bundle": "^5.4",
+    "symfony/doctrine-bridge": "^5.4",
+    "symfony/security-bundle": "^5.4",
+    "symfony/twig-bundle": "^5.4",
+    "symfony/webpack-encore-bundle": "^1.12",
+    "symfony/asset": "^5.4",
+    "symfony/intl": "^5.4",
+    "symfony/form": "^5.4",
+    "symfony/property-access": "^5.4",
+    "symfony/string": "^5.4",
+    "symfony/translation": "^5.4",
+    "symfony/validator": "^5.4",
+    "symfony/serializer": "^5.4",
+    "symfony/console": "^5.4",
+    "twig/extra-bundle": "^3.3",
+    "twig/intl-extra": "^3.3",
+    "twig/twig": "^3.3"
+  },
+  "require-dev": {
+    "psr/log": "^1.0",
+    "symfony/phpunit-bridge": "^5.4"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "Satunnaisuus\\MetronomeBundle\\": "src/"
+    }
+  }
+}

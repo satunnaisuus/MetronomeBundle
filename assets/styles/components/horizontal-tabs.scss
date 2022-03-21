@@ -1,0 +1,24 @@
+.horizontal-tabs {
+  background: #fff;
+  border-radius: $border-radius;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.horizontal-tabs__nav {
+  border: none;
+}
+
+.horizontal-tabs__nav-link {
+  border-radius: 0 !important;
+  border: none !important;
+  border-bottom: 2px solid #fff !important;
+
+  &.active {
+    background-color: transparent !important;
+    border-color: #0078d4 !important;
+  }
+}
+
+.horizontal-tabs__tab-content {
+  padding: 15px;
+}

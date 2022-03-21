@@ -1,0 +1,15 @@
+.image-preview {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $border-radius;
+  background: $gray-700;
+  overflow: hidden;
+}
+
+.image-preview__thumbnail {
+  max-width: 100%;
+  max-height: 100%;
+}

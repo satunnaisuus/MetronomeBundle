@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {{ encore_entry_link_tags('admin', null, 'admin') }}
+
+    <title>Панель управления</title>
+</head>
+<body>
+    <div class="d-flex">
+        <div class="admin-sidebar" data-controller="sidebar">
+            <div class="admin-logo">{{ main_title }}</div>
+            {{ include('@Admin/menu/menu.html.twig') }}
+        </div>
+        <div class="flex-grow-1 w-100">
+            <div class="action-container">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+    </div>
+    <button class="menu-toggle" data-controller="menu-toggle">
+        <i class="bi bi-list menu-toggle__icon-open"></i>
+        <i class="bi bi-x menu-toggle__icon-close"></i>
+    </button>
+
+    {{ encore_entry_script_tags('admin', null, 'admin') }}
+</body>
+</html>

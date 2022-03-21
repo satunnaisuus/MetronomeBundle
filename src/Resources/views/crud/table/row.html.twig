@@ -1,0 +1,66 @@
+<tr data-role="row" data-id="{{ row.entity.id }}" data-name="{{ attribute(row.entity, '__toString') is defined ? row.entity : ('#' ~ row.entity.id) }}" data-parent="{{ parentId|default('') }}" class="data-table__row {% if parentId is defined %}d-none{% endif %}">
+    {% if config.showCheckboxes %}
+        <td class="data-table__cell data-table__cell--checkbox">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" data-role="check">
+            </div>
+        </td>
+    {% endif %}
+    {% for column in config.columns %}
+        {% set value = row.values[column.propertyPath] %}
+        <td class="data-table__cell">
+            {% if config.isTree and config.treeConfig.toggleColumn is same as(column.propertyPath) %}
+                {{ '<span class="me-4"></span>'|repeat(row.level)|raw }}
+
+                {% if row.childs %}
+                    <button type="button" class="data-table__tree-toggle" data-role="collapse-children">
+                        <i class="bi bi-caret-down-fill"></i>
+                    </button>
+                {% else %}
+                    <span class="data-table__tree-toggle data-table__tree-toggle--empty"></span>
+                {% endif %}
+            {% endif %}
+
+            {% if value is same as(null) %}
+                {{ include('@Admin/crud/field/null.html.twig') }}
+            {% else %}
+                {{ include('@Admin/crud/field/' ~ column.type ~ '.html.twig', {value: value }) }}
+            {% endif %}
+        </td>
+    {% endfor %}
+    <td class="data-table__cell data-table__cell--actions">
+        {% set activeActions = entity_actions|filter(v => v.show.check(row.entity)) %}
+        {% set activeActionsWithIcon = activeActions|filter(v => v.icon) %}
+        {% set activeActionsWithoutIcon = activeActions|filter(v => not v.icon) %}
+
+        {% if activeActions|length > 0 %}
+            {% for action in activeActionsWithIcon %}
+                <a class="btn btn-sm btn-{{ action.color }}" href="{{ url(app.request.attributes.get('_route'), {resource: resourceName, action: action.name, entity_id: row.entity.id}) }}" {% if action.confirmation %}data-role="confirmation" data-confirmation-text="{{ action.confirmationMessage|e('html_attr') }}"{% endif %} data-controller="tooltip" title="{{ action.label|e('html_attr') }}">
+                    {% if action.icon %}<i class="bi bi-{{ action.icon }}"></i>{% endif %}
+                </a>
+            {% endfor %}
+
+            {% if activeActionsWithoutIcon|length > 0 %}
+                <span>
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        {% for action in activeActionsWithoutIcon %}
+                            <li>
+                                <a class="dropdown-item {% if action.color is same as('danger') %}text-{{ action.color }}{% endif %}" href="{{ url(app.request.attributes.get('_route'), {resource: resourceName, action: action.name, entity_id: row.entity.id}) }}" {% if action.confirmation %}data-role="confirmation" data-confirmation-text="{{ action.confirmationMessage|e('html_attr') }}"{% endif %}>
+                                    {% if action.icon %}<i class="bi bi-{{ action.icon }}"></i>{% endif %} {{ action.label }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </span>
+            {% endif %}
+        {% endif %}
+    </td>
+</tr>
+{% if row.childs|length > 0 %}
+    {% for childRow in row.childs %}
+        {{ include('@Admin/crud/table/row.html.twig', {config: config, row: childRow, entity_actions: entity_actions, resourceName: resourceName, parentId: row.entity.id}) }}
+    {% endfor %}
+{% endif %}

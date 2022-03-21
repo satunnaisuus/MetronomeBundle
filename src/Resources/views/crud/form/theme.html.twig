@@ -1,0 +1,238 @@
+{% block collection_entry_row %}
+    <div data-form-collection-target="item" class="admin-form-collection-entry mb-3" {{ block('attributes') }}>
+        {% set customMap = false %}
+        {% for blockPrefix, map in getRootForm(form).vars.form_entry_collection_layouts %}
+            {% if blockPrefix in form.vars.block_prefixes %}
+                {% set customMap = true %}
+                {% for element in map.elements %}
+                    {{ include('@Admin/crud/form/element.html.twig', {element: element}) }}
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+
+        {% if not customMap %}
+            <div class="form-group">
+                {{- form_label(form) -}}
+                {{ form_widget(form) }}
+                {% if form.parent.vars.allow_delete %}
+                    <button class="btn btn-outline-danger btn-sm" data-action="form-collection#delete" type="button">
+                        <i class="bi bi-trash-fill"></i> Удалить
+                    </button>
+                {% endif %}
+            </div>
+        {% else %}
+            {% for child in form -%}
+                {% if not child.rendered %}
+                    {{- form_row(child) -}}
+                {% endif %}
+            {%- endfor -%}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{%- block form_row -%}
+    {%- if compound is defined and compound -%}
+        {%- set element = 'fieldset' -%}
+    {%- endif -%}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    {%- set row_class = row_class|default(row_attr.class|default('mb-3')|trim) -%}
+    <{{ element|default('div') }}{% with {attr: row_attr|merge({class: row_class})} %}{{ block('attributes') }}{% endwith %}>
+        {%- set customMap = null -%}
+
+        {%- for blockPrefix, map in getRootForm(form).vars.form_entry_layouts -%}
+            {%- if blockPrefix in form.vars.block_prefixes -%}
+                {%- set customMap = map -%}
+            {%- endif -%}
+        {%- endfor -%}
+
+        {%- if customMap is not null -%}
+            {%- for element in customMap.elements -%}
+                {{ include('@Admin/crud/form/element.html.twig', {element: element}) }}
+            {%- endfor -%}
+        {%- else -%}
+            {%- if 'form-floating' in row_class -%}
+                {{- form_widget(form, widget_attr) -}}
+                {{- form_label(form) -}}
+            {%- else -%}
+                {{- form_label(form) -}}
+                {{- form_widget(form, widget_attr) -}}
+            {%- endif -%}
+        {%- endif -%}
+
+        {{- form_help(form) -}}
+        {{- form_errors(form) -}}
+    </{{ element|default('div') }}>
+{%- endblock form_row %}
+
+{% block collection_widget %}
+    <div class="admin-form-collection" data-controller="form-collection">
+        {%- set attr = attr|merge({
+            'data-form-collection-target': 'container',
+            'data-collection-index': value|length == 0 ? 0 : (max(value|keys) + 1),
+            'class': (attr.class is defined ? attr.class : '') ~ ' admin-form-collection-items'
+        }) -%}
+        {{- block('form_widget') -}}
+        {% if allow_add %}
+            {%- set prototypeFormRow = (prototype is defined and not prototype.rendered) ? form_row(prototype) : null -%}
+            <button type="button" class="btn btn-primary btn-sm" data-action="form-collection#add" data-form-collection-prototype-name-param="{{ prototype.vars.name|e('html_attr') }}" data-form-collection-prototype-param="{{ prototypeFormRow|e('html_attr') }}">
+                Добавить
+            </button>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block resource_picker_widget %}
+    {% macro resourceTemplate(id, label) %}
+        <li class="list-group-item d-flex justify-content-between align-items-center" data-id="{{ id }}" data-resource-picker-target="element">
+            <span data-role="label">{{ label }}</span>
+            <button type="button" class="btn btn-sm btn-outline-danger ms-2" data-action="resource-picker#delete"><i class="bi bi-trash-fill"></i></button>
+        </li>
+    {% endmacro %}
+
+    {% set attr = attr|merge({
+        'data-controller': 'resource-picker',
+        'data-resource-picker-url-value': url(route, route_params),
+        'data-resource-picker-multiple-value': multiple,
+        'class': 'form-group mb-3'
+    }) %}
+
+    {% set decodedValue = json_decode(value) %}
+
+    <div {{ block('attributes') }}>
+        {{- form_label(form) -}}
+        {{- form_widget(form, {attr: {'data-resource-picker-target': 'input'}}) -}}
+        {% if multiple %}
+            <ul class="list-group mb-2" data-resource-picker-target="container" data-prototype="{{ _self.resourceTemplate('__id__', '__label__')|e('html_attr') }}">
+                {% for resource in decodedValue %}
+                    {{ _self.resourceTemplate(resource.id, resource.name) }}
+                {% endfor %}
+            </ul>
+            <div>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-action="resource-picker#openModal">
+                    <i class="bi bi-folder2-open"></i>
+                    Добавить
+                </button>
+            </div>
+        {% else %}
+            <div class="btn-group w-100">
+                <button type="button" class="btn btn-outline-secondary text-secondary bg-transparent border-end-0 text-start" data-action="resource-picker#openModal">
+                    <i class="bi bi-folder2-open"></i>
+                    <span data-resource-picker-target="name">{{ decodedValue is null ? null : decodedValue.name|e('html_attr') }}</span>
+                </button>
+                <button type="button" class="btn btn-outline-secondary flex-grow-0" data-action="resource-picker#delete"><i class="bi bi-x-lg"></i></button>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block ajax_uploader_row %}
+    <div class="mb-3" data-ajax-uploader-image-value="{{ is_image ? 1 : 0 }}" data-controller="ajax-uploader" data-ajax-uploader-url-value="{{ url(route, route_params) }}">
+        {{- form_label(form) -}}
+
+        <div>
+            {{- form_widget(form.path, {attr: {'data-ajax-uploader-target': 'pathInput'}}) -}}
+            {{- form_widget(form.size, {attr: {'data-ajax-uploader-target': 'sizeInput'}}) -}}
+            {{- form_widget(form.mimeType, {attr: {'data-ajax-uploader-target': 'mimeTypeInput'}}) -}}
+            {{- form_widget(form.originalName, {attr: {'data-ajax-uploader-target': 'nameInput'}}) -}}
+        </div>
+
+        {% if is_image %}
+            <div class="d-flex">
+                <div class="ml-1 d-flex align-items-stretch flex-column me-1">
+                    <button type="button" class="btn btn-sm btn-primary mb-1" data-action="ajax-uploader#choice">
+                        <span class="spinner-border spinner-border-sm" data-ajax-uploader-target="spinner" style="display: none;"></span>
+                        <i class="bi bi-folder2-open" data-ajax-uploader-target="uploadIcon"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-action="ajax-uploader#delete"><i class="bi bi-trash-fill"></i></button>
+                </div>
+                <a href="#" class="position-relative image-preview" target="_blank" data-ajax-uploader-target="link">
+                    <span class="badge bg-dark position-absolute m-2" data-ajax-uploader-target="size"></span>
+                    <img class="image-preview__thumbnail" src="" alt="" data-ajax-uploader-target="thumbnail">
+                </a>
+            </div>
+        {% else %}
+            <div class="d-flex align-items-center">
+                <div>
+                    <a href="#" download data-ajax-uploader-target="link"></a>
+                    <span class="text-info" data-ajax-uploader-target="size"></span>
+                </div>
+                <div class="ml-1">
+                    <button type="button" class="btn btn-sm btn-primary" data-action="ajax-uploader#choice">
+                        <span class="spinner-border spinner-border-sm" data-ajax-uploader-target="spinner" style="display: none;"></span>
+                        <i class="bi bi-folder2-open" data-ajax-uploader-target="uploadIcon"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-action="ajax-uploader#delete"><i class="bi bi-trash-fill"></i></button>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block translations_widget %}
+    {% set activeTabId = attribute(getRootForm(form).vars.state, form.vars.id)|default(null) %}
+    {% if form.vars.theme == 'tabs' %}
+        <div class="horizontal-tabs">
+            <nav>
+                <div class="nav nav-tabs horizontal-tabs__nav">
+                    {% for locale, translationForm in form %}
+                        {% set isActiveTab = activeTabId ? (activeTabId == locale) : loop.first %}
+                        <button class="horizontal-tabs__nav-link nav-link {% if isActiveTab %}active{% endif %}" data-action="crud-form#changeState" data-crud-form-key-param="{{ form.vars.id }}" data-crud-form-value-param="{{ locale }}" data-bs-toggle="tab" data-bs-target="#{{ form.vars.id }}_tab_{{ locale }}" type="button">
+                            <span>{{ locale }}</span>
+                            {% if not translationForm.vars.valid %}
+                                <i class="bi bi-exclamation-triangle-fill text-danger"></i>
+                            {% endif %}
+                        </button>
+                    {% endfor %}
+                </div>
+            </nav>
+            <div class="horizontal-tabs__tab-content tab-content">
+                {% for locale, translationForm in form %}
+                    {% set isActiveTab = activeTabId ? (activeTabId == locale) : loop.first %}
+                    <div class="tab-pane fade {% if isActiveTab %}show active{% endif %}" id="{{ form.vars.id }}_tab_{{ locale }}">
+                        {{ form_widget(translationForm) }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% elseif form.vars.theme == 'accordion' %}
+        <div class="accordion" id="{{ form.vars.id }}_accordion">
+            {% for locale, translationForm in form %}
+                {% set isActiveTab = activeTabId ? (activeTabId == locale) : loop.first %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#{{ form.vars.id }}_accordion_{{ locale }}" data-action="crud-form#changeState" data-crud-form-key-param="{{ form.vars.id }}" data-crud-form-value-param="{{ locale }}">
+                            <span>{{ locale }}</span>
+                            {% if not translationForm.vars.valid %}
+                                <i class="bi bi-exclamation-triangle-fill text-danger"></i>
+                            {% endif %}
+                        </button>
+                    </h2>
+                    <div id="{{ form.vars.id }}_accordion_{{ locale }}" class="accordion-collapse collapse {% if isActiveTab %}show{% endif %}" data-bs-parent="#{{ form.vars.id }}_accordion">
+                        <div class="accordion-body bg-white">
+                            {{ form_widget(translationForm) }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{- form_widget(form) -}}
+    {% endif %}
+{% endblock %}
+
+{% block localized_text_row %}
+    <div class="input-group">
+        <span class="input-group-text">{{ form.vars.locale }}</span>
+        {{- form_widget(form) -}}
+    </div>
+{% endblock %}
+
+{% block localized_textarea_row %}
+    <div class="input-group">
+        <span class="input-group-text">{{ form.vars.locale }}</span>
+        {{- form_widget(form) -}}
+    </div>
+{% endblock %}

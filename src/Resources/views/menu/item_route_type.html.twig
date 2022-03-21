@@ -1,0 +1,10 @@
+<li class="admin-menu__item">
+    <a href="{{ url(item.route, item.params) }}" class="admin-menu__link">
+        {% if item.options.icon %}
+            <span class="admin-menu__icon">
+                <i class="bi bi-{{ item.options.icon }}"></i>
+            </span>
+        {% endif %}
+        <span>{{ item.label }}</span>
+    </a>
+</li>

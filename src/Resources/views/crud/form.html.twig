@@ -1,0 +1,14 @@
+{% form_theme form with [
+    'bootstrap_5_layout.html.twig',
+    '@Admin/crud/form/theme.html.twig',
+] %}
+
+{{ form_start(form) }}
+    <div class="action-header action-header--sticky">
+        <button class="btn btn-primary" type="submit">Сохранить</button>
+    </div>
+    {{ form_errors(form) }}
+    {% for element in form.vars.elements %}
+        {{ include('@Admin/crud/form/element.html.twig', {element: element}) }}
+    {% endfor %}
+{{ form_end(form) }}

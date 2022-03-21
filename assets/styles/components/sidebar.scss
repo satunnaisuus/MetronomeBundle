@@ -1,0 +1,22 @@
+.admin-sidebar {
+  width: $sidebar-width;
+  z-index: 10;
+  top: 0;
+  transition: left .15s ease-out;
+  overflow-y: auto;
+  margin-left: 15px;
+  height: 100vh;
+  position: sticky;
+
+  @include media-breakpoint-down($sidebar-show-breakpoint) {
+    left: -$sidebar-width + 1;
+    position: fixed;
+    background: #fff;
+    box-shadow: 1px 0 1px 0 #eeeeee;
+    margin-left: 0;
+  }
+}
+
+.admin-sidebar--opened {
+  left: 0;
+}
