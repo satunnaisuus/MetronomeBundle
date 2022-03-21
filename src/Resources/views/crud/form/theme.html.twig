@@ -5,7 +5,7 @@
             {% if blockPrefix in form.vars.block_prefixes %}
                 {% set customMap = true %}
                 {% for element in map.elements %}
-                    {{ include('@MetronomeBundle/crud/form/element.html.twig', {element: element}) }}
+                    {{ include('@Metronome/crud/form/element.html.twig', {element: element}) }}
                 {% endfor %}
             {% endif %}
         {% endfor %}
@@ -50,7 +50,7 @@
 
         {%- if customMap is not null -%}
             {%- for element in customMap.elements -%}
-                {{ include('@MetronomeBundle/crud/form/element.html.twig', {element: element}) }}
+                {{ include('@Metronome/crud/form/element.html.twig', {element: element}) }}
             {%- endfor -%}
         {%- else -%}
             {%- if 'form-floating' in row_class -%}

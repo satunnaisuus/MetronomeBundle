@@ -2,7 +2,7 @@
     {% for item in element.options.items %}
         <li class="list-group-item">
             <div class="fw-bold">{{ item.label }}</div>
-            {{ include('@MetronomeBundle/crud/detailed/element.html.twig', {element: item.element, entity: entity}) }}
+            {{ include('@Metronome/crud/detailed/element.html.twig', {element: item.element, entity: entity}) }}
         </li>
     {% endfor %}
 </ul>

@@ -26,7 +26,7 @@ abstract class AbstractAction implements ServiceSubscriberInterface
     {
         $resolver->setDefault('label', '');
         $resolver->setDefault('scope', self::SCOPE_GLOBAL);
-        $resolver->setDefault('template', '@MetronomeBundle/action/button_default.html.twig');
+        $resolver->setDefault('template', '@Metronome/action/button_default.html.twig');
         $resolver->setDefault('name', '');
         $resolver->setDefault('hidden', false);
         $resolver->setDefault('color', 'primary');

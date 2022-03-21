@@ -1,5 +1,5 @@
 <ul class="admin-menu">
     {% for item in menu.items %}
-        {{ include('@MetronomeBundle/menu/item_' ~ item.type ~ '_type.html.twig', {item: item}) }}
+        {{ include('@Metronome/menu/item_' ~ item.type ~ '_type.html.twig', {item: item}) }}
     {% endfor %}
 </ul>

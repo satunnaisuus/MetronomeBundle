@@ -2,21 +2,21 @@
     {% if element.options.header|length > 0 %}
         <div class="card-header">
             {% for headerElement in element.options.header %}
-                {{ include('@MetronomeBundle/crud/form/element.html.twig', {element: headerElement}) }}
+                {{ include('@Metronome/crud/form/element.html.twig', {element: headerElement}) }}
             {% endfor %}
         </div>
     {% endif %}
     {% if element.options.body|length > 0 %}
         <div class="card-body">
             {% for bodyElement in element.options.body %}
-                {{ include('@MetronomeBundle/crud/form/element.html.twig', {element: bodyElement}) }}
+                {{ include('@Metronome/crud/form/element.html.twig', {element: bodyElement}) }}
             {% endfor %}
         </div>
     {% endif %}
     {% if element.options.footer|length > 0 %}
         <div class="card-footer">
             {% for footerElement in element.options.footer %}
-                {{ include('@MetronomeBundle/crud/form/element.html.twig', {element: footerElement}) }}
+                {{ include('@Metronome/crud/form/element.html.twig', {element: footerElement}) }}
             {% endfor %}
         </div>
     {% endif %}

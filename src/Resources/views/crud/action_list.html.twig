@@ -1,4 +1,4 @@
-{% extends '@MetronomeBundle/layout.html.twig' %}
+{% extends '@Metronome/layout.html.twig' %}
 
 {% block body %}
     <div class="action-header">
@@ -8,7 +8,7 @@
     </div>
     <div class="card" data-controller="admin-data-table">
         <div class="card-body">
-            {{ include('@MetronomeBundle/crud/list.html.twig') }}
+            {{ include('@Metronome/crud/list.html.twig') }}
         </div>
     </div>
 {% endblock %}

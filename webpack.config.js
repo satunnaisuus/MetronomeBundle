@@ -8,7 +8,7 @@ Encore
     .setOutputPath('./src/Resources/public')
     .setPublicPath('/bundles/metronome')
     .setManifestKeyPrefix('bundles/metronome')
-    .addEntry('admin', './assets/admin.js')
+    .addEntry('metronome', './assets/admin.js')
     .enableStimulusBridge('./assets/controllers.json')
     .splitEntryChunks()
     .enableSingleRuntimeChunk()

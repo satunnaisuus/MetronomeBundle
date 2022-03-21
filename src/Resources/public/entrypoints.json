@@ -1,13 +1,13 @@
 {
   "entrypoints": {
-    "admin": {
+    "metronome": {
       "js": [
-        "/bundles/metronome/runtime.js",
-        "/bundles/metronome/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_bootstrap_dist_js_boo-7e3309.js",
-        "/bundles/metronome/admin.js"
+        "/bundles/metronome/runtime.6b2c1811.js",
+        "/bundles/metronome/189.a40d929e.js",
+        "/bundles/metronome/metronome.9feef63a.js"
       ],
       "css": [
-        "/bundles/metronome/admin.css"
+        "/bundles/metronome/metronome.b8e2c780.css"
       ]
     }
   }

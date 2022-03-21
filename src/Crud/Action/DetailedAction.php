@@ -27,7 +27,7 @@ class DetailedAction extends AbstractAction
         $mapper = $this->container->get('detailedViewMapperFactory')->create(get_class($entity));
         $context->getResource()->configureDetailedView($mapper, $entity);
 
-        return $this->render('@MetronomeBundle/crud/action_detailed.html.twig', array_merge($this->getViewParameters($context), [
+        return $this->render('@Metronome/crud/action_detailed.html.twig', array_merge($this->getViewParameters($context), [
             'elements' => $mapper->getElements(),
         ]));
     }

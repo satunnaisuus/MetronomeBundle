@@ -12,7 +12,7 @@
     </a>
     <ul class="admin-menu collapse {% if item.active %}show{% endif %}" id="{{ item.label|slug }}">
         {% for subitem in item.items %}
-            {{ include('@MetronomeBundle/menu/item_' ~ subitem.type ~ '_type.html.twig', {item: subitem}) }}
+            {{ include('@Metronome/menu/item_' ~ subitem.type ~ '_type.html.twig', {item: subitem}) }}
         {% endfor %}
     </ul>
 </li>
