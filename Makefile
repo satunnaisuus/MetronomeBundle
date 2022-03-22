@@ -1,8 +1,11 @@
 UID := $(shell id -u)
 GID := $(shell id -g)
 
+docker-build:
+	UID=$(UID) GID=$(GID) docker-compose build
+
 composer-install:
-	UID=$(UID) GID=$(GID) docker-compose run php-cli composer install --no-cache
+	UID=$(UID) GID=$(GID) docker-compose run composer composer install --no-cache
 
 npm-install:
 	UID=$(UID) GID=$(GID) docker-compose run node npm install

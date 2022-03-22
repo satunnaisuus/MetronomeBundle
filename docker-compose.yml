@@ -1,10 +1,9 @@
 version: '3'
 services:
-  php-cli:
-    build:
-      context: ./docker/php-cli
+  composer:
+    image: 'composer:2.3'
     volumes:
-      - ./:/bundle
+      - ./:/app
     user: ${UID}:${GID}
     environment:
       HOME: /tmp
@@ -12,5 +11,5 @@ services:
     user: ${UID}:${GID}
     image: 'node:14.17-buster'
     volumes:
-      - ./:/bundle
-    working_dir: '/bundle'
+      - ./:/app
+    working_dir: '/app'
