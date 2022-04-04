@@ -51,7 +51,9 @@ class TranslationType extends AbstractType
             $data = $event->getData();
 
             foreach ($data as $locale => $translation) {
-                $translation->setLocale($locale);
+                if (is_object($translation) && method_exists($translation, 'setLocale')) {
+                    $translation->setLocale($locale);
+                }
             }
         });
     }
