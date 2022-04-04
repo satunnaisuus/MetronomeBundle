@@ -84,6 +84,37 @@
     </div>
 {% endblock %}
 
+{% block polymorphic_collection_widget %}
+    <div class="admin-form-collection" data-controller="form-collection">
+        {% set attr = attr|merge({
+            'data-form-collection-target': 'container',
+            'data-collection-index': value|length == 0 ? 0 : (max(value|keys) + 1),
+            'class': (attr.class is defined ? attr.class : '') ~ ' admin-form-collection-items'
+        }) %}
+        {{- block('form_widget') -}}
+
+        {% if allow_add %}
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-plus-lg"></i>
+                    Добавить блок
+                </button>
+                <ul class="dropdown-menu">
+                    {% for prototypeType, prototype in prototypes %}
+                        {% if prototype.form is defined and not prototype.form.rendered %}
+                            <li>
+                                <button class="dropdown-item" type="button" data-action="form-collection#add" data-form-collection-type-param="{{ prototypeType|e('html_attr') }}" data-form-collection-prototype-name-param="{{ prototype.form.vars.name|e('html_attr') }}" data-form-collection-prototype-param="{{ form_row(prototype.form)|e('html_attr') }}">
+                                    {{ prototype.name }}
+                                </button>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
 {% block resource_picker_widget %}
     {% macro resourceTemplate(id, label) %}
         <li class="list-group-item d-flex justify-content-between align-items-center" data-id="{{ id }}" data-resource-picker-target="element">
