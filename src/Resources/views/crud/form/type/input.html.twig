@@ -1,4 +1,4 @@
 {% set child = recursiveArrayAccess(form, element.options.child) %}
 {% if child %}
-    {{ form_row(child, element.options.options) }}
+    {{ form_row(child) }}
 {% endif %}
