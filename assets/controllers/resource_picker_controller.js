@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus';
+import { Controller } from '@hotwired/stimulus';
 import { DataTable } from "../components/data-table";
 import {Modal} from 'bootstrap';
 
