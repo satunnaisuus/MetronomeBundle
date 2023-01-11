@@ -1,32 +1,70 @@
 {% block collection_entry_row %}
     <div data-form-collection-target="item" class="admin-form-collection-entry mb-3" {{ block('attributes') }}>
-        {% set customMap = false %}
-        {% for blockPrefix, map in getRootForm(form).vars.form_entry_collection_layouts %}
-            {% if blockPrefix in form.vars.block_prefixes %}
-                {% set customMap = true %}
-                {% for element in map.elements %}
-                    {{ include('@Metronome/crud/form/element.html.twig', {element: element}) }}
-                {% endfor %}
-            {% endif %}
-        {% endfor %}
+        {% set sortable = form.parent.vars.attr['data-sortable'] is defined %}
 
-        {% if not customMap %}
-            <div class="form-group">
-                {{- form_label(form) -}}
-                {{ form_widget(form) }}
-                {% if form.parent.vars.allow_delete %}
-                    <button class="btn btn-outline-danger btn-sm" data-action="form-collection#delete" type="button">
-                        <i class="bi bi-trash-fill"></i> Удалить
-                    </button>
+        {% if sortable or form.parent.vars.allow_delete or form.parent.vars.allow_add %}
+            <div class="admin-form-collection-entry__controls" data-form-collection-target="controls">
+                {% if sortable %}
+                    <div class="admin-form-collection-entry__drag" data-role="drag">
+                        <i class="bi bi-grip-vertical"></i>
+                    </div>
                 {% endif %}
+                <div class="admin-form-collection-entry__controls-buttons">
+                    {% if form.parent.vars.allow_delete %}
+                        <button class="btn btn-outline-danger btn-sm" data-action="form-collection#delete" type="button">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    {% endif %}
+
+                    {% if form.parent.vars.allow_add %}
+                        {% if form.parent.vars.prototypes is defined %}
+                            <div class="dropdown">
+                                <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="dropdown" data-action="show.bs.dropdown->form-collection#controlOpen hide.bs.dropdown->form-collection#controlClose">
+                                    <i class="bi bi-arrow-return-right"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    {% for prototypeType, prototype in form.parent.vars.prototypes %}
+                                        <li>
+                                            <button class="dropdown-item" type="button" data-action="form-collection#add" data-form-collection-type-param="{{ prototypeType|e('html_attr') }}">
+                                                {{ prototype.name }}
+                                            </button>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% else %}
+                            <button class="btn btn-outline-primary btn-sm" data-action="form-collection#add" type="button">
+                                <i class="bi bi-arrow-return-right"></i>
+                            </button>
+                        {% endif %}
+                    {% endif %}
+                </div>
             </div>
-        {% else %}
-            {% for child in form -%}
-                {% if not child.rendered %}
-                    {{- form_row(child) -}}
-                {% endif %}
-            {%- endfor -%}
         {% endif %}
+        <div class="admin-form-collection-entry__form">
+            {% set customMap = false %}
+            {% for blockPrefix, map in getRootForm(form).vars.form_entry_collection_layouts %}
+                {% if blockPrefix in form.vars.block_prefixes %}
+                    {% set customMap = true %}
+                    {% for element in map.elements %}
+                        {{ include('@Metronome/crud/form/element.html.twig', {element: element}) }}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+
+            {% if not customMap %}
+                <div class="form-group">
+                    {{- form_label(form) -}}
+                    {{ form_widget(form) }}
+                </div>
+            {% else %}
+                {% for child in form -%}
+                    {% if not child.rendered %}
+                        {{- form_row(child) -}}
+                    {% endif %}
+                {%- endfor -%}
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
 
@@ -68,7 +106,18 @@
 {%- endblock form_row %}
 
 {% block collection_widget %}
-    <div class="admin-form-collection" data-controller="form-collection">
+    <div
+            class="admin-form-collection"
+            data-controller="form-collection"
+            {% if allow_add %}
+                {%- set prototypeFormRow = (prototype is defined and not prototype.rendered) ? form_row(prototype) : null -%}
+                data-form-collection-prototype-name-value="{{ prototype.vars.name|e('html_attr') }}"
+                data-form-collection-prototype-value="{{ prototypeFormRow|e('html_attr') }}"
+            {% endif %}
+            {% if attr['data-sortable'] is defined %}
+                data-form-collection-sortable-value="1"
+            {% endif %}
+    >
         {%- set attr = attr|merge({
             'data-form-collection-target': 'container',
             'data-collection-index': value|length == 0 ? 0 : (max(value|keys) + 1),
@@ -76,8 +125,8 @@
         }) -%}
         {{- block('form_widget') -}}
         {% if allow_add %}
-            {%- set prototypeFormRow = (prototype is defined and not prototype.rendered) ? form_row(prototype) : null -%}
-            <button type="button" class="btn btn-primary btn-sm" data-action="form-collection#add" data-form-collection-prototype-name-param="{{ prototype.vars.name|e('html_attr') }}" data-form-collection-prototype-param="{{ prototypeFormRow|e('html_attr') }}">
+            <button type="button" class="btn btn-primary btn-sm" data-action="form-collection#add">
+                <i class="bi bi-plus-lg"></i>
                 Добавить
             </button>
         {% endif %}
@@ -85,29 +134,45 @@
 {% endblock %}
 
 {% block polymorphic_collection_widget %}
-    <div class="admin-form-collection" data-controller="form-collection">
+    <div
+            class="admin-form-collection"
+            data-controller="form-collection"
+            {% if attr['data-sortable'] is defined %}
+                data-form-collection-sortable-value="1"
+            {% endif %}
+    >
         {% set attr = attr|merge({
             'data-form-collection-target': 'container',
             'data-collection-index': value|length == 0 ? 0 : (max(value|keys) + 1),
-            'class': (attr.class is defined ? attr.class : '') ~ ' admin-form-collection-items'
+            'class': (attr.class is defined ? attr.class : '') ~ ' admin-form-collection-items',
         }) %}
+
+        {% if allow_add %}
+            {% for prototypeType, prototype in prototypes %}
+                {% if prototype.form is defined and not prototype.form.rendered %}
+                    {% set attr = attr|merge({
+                        ('data-prototype-name-' ~ prototypeType): prototype.form.vars.name,
+                        ('data-prototype-' ~ prototypeType) : form_row(prototype.form)
+                    }) %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
         {{- block('form_widget') -}}
 
         {% if allow_add %}
             <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
                     <i class="bi bi-plus-lg"></i>
                     Добавить блок
                 </button>
                 <ul class="dropdown-menu">
                     {% for prototypeType, prototype in prototypes %}
-                        {% if prototype.form is defined and not prototype.form.rendered %}
-                            <li>
-                                <button class="dropdown-item" type="button" data-action="form-collection#add" data-form-collection-type-param="{{ prototypeType|e('html_attr') }}" data-form-collection-prototype-name-param="{{ prototype.form.vars.name|e('html_attr') }}" data-form-collection-prototype-param="{{ form_row(prototype.form)|e('html_attr') }}">
-                                    {{ prototype.name }}
-                                </button>
-                            </li>
-                        {% endif %}
+                        <li>
+                            <button class="dropdown-item" type="button" data-action="form-collection#add" data-form-collection-type-param="{{ prototypeType|e('html_attr') }}">
+                                {{ prototype.name }}
+                            </button>
+                        </li>
                     {% endfor %}
                 </ul>
             </div>
