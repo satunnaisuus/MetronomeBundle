@@ -85,6 +85,7 @@ class EditAction extends AbstractAction
                 $entityClassConfig->getBaseClass(),
                 $context->getRequest()->get('entity_id')
             ),
+            'customFormThemes' => $context->getPanel()->getCustomFormThemes(),
         ]);
     }
 

@@ -1,7 +1,7 @@
 {% form_theme form with [
     'bootstrap_5_layout.html.twig',
     '@Metronome/crud/form/theme.html.twig',
-] %}
+]|merge(customFormThemes) %}
 
 {{ form_start(form) }}
     <div class="action-header action-header--sticky">

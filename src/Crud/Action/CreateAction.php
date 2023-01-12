@@ -71,7 +71,7 @@ class CreateAction extends AbstractAction
     public function getViewParameters(AdminContext $context): array
     {
         return array_merge(parent::getViewParameters($context), [
-
+            'customFormThemes' => $context->getPanel()->getCustomFormThemes(),
         ]);
     }
 

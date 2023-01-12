@@ -52,6 +52,14 @@ abstract class AbstractAdminPanel
     }
 
     /**
+     * @return string[]
+     */
+    public function getCustomFormThemes(): array
+    {
+        return [];
+    }
+
+    /**
      * @return [string, AbstractResource]
      */
     protected function resolveResource(Request $request, ResourceCollection $resources): array
