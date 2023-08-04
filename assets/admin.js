@@ -1,4 +1,10 @@
 import { Application } from "@hotwired/stimulus";
+
+import 'bootstrap/js/dist/offcanvas';
+import 'bootstrap/js/dist/modal';
+import 'bootstrap/js/dist/collapse';
+import 'bootstrap/js/dist/dropdown';
+
 import ActionConfirmationController from "./controllers/action_confirmation_controller";
 import AdminDataTableController from "./controllers/admin_data_table_controller";
 import AjaxUploaderController from "./controllers/ajax_uploader_controller";
