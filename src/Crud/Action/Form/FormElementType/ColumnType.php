@@ -11,6 +11,7 @@ class ColumnType extends AbstractFormElementType
         parent::configureOptions($resolver);
 
         $resolver->setDefault('elements', []);
+        $resolver->setDefault('class', '');
     }
 
     public function getName(): string

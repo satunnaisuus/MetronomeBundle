@@ -1,4 +1,4 @@
-<div class="col">
+<div class="col {{ element.options.class }}">
     {% for element in element.options.elements %}
         {{ include('@Metronome/crud/form/element.html.twig', {element: element}) }}
     {% endfor %}
