@@ -30,6 +30,7 @@ class AjaxUploaderType extends AbstractType
             'mapping' => 'default',
             'is_image' => false,
             'data_class' => File::class,
+            'allow_delete' => true,
         ]);
     }
 
@@ -89,5 +90,6 @@ class AjaxUploaderType extends AbstractType
         $view->vars['route'] = $options['route'];
         $view->vars['route_params'] = $options['route_params'];
         $view->vars['is_image'] = $options['is_image'];
+        $view->vars['allow_delete'] = $options['allow_delete'];
     }
 }

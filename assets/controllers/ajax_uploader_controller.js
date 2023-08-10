@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-    static targets = ["pathInput", "sizeInput", "mimeTypeInput", "nameInput", "link", "size", "thumbnail", "spinner", "uploadIcon"];
+    static targets = ["pathInput", "sizeInput", "mimeTypeInput", "nameInput", "link", "size", "thumbnail", "spinner", "uploadIcon", "delete"];
 
     static values = {
         image: Boolean,
@@ -12,6 +12,7 @@ export default class extends Controller {
         if (this.pathInputTarget.value) {
             this.linkTarget.href = this.pathInputTarget.value;
             this.sizeTarget.innerText = this.formatSize(this.sizeInputTarget.value);
+            this.deleteTarget.style.display = null;
 
             if (this.imageValue) {
                 this.thumbnailTarget.src = this.pathInputTarget.value;
@@ -21,6 +22,7 @@ export default class extends Controller {
         } else {
             this.linkTarget.style.display = 'none';
             this.sizeTarget.style.display = 'none';
+            this.deleteTarget.style.display = 'none';
         }
     }
 
@@ -70,6 +72,7 @@ export default class extends Controller {
 
                         this.spinnerTarget.style.display = 'none';
                         this.uploadIconTarget.style.display = null;
+                        this.deleteTarget.style.display = null;
                     } else if (Array.isArray(data)) {
                         return Promise.reject(data.join('. '));
                     }
@@ -90,6 +93,7 @@ export default class extends Controller {
         this.nameInputTarget.value = null;
         this.linkTarget.style.display = 'none';
         this.sizeTarget.style.display = 'none';
+        this.deleteTarget.style.display = 'none';
     }
 
     formatSize(bytes) {

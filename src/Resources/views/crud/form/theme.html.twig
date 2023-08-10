@@ -242,7 +242,7 @@
                         <span class="spinner-border spinner-border-sm" data-ajax-uploader-target="spinner" style="display: none;"></span>
                         <i class="bi bi-folder2-open" data-ajax-uploader-target="uploadIcon"></i>
                     </button>
-                    <button type="button" class="btn btn-sm btn-outline-danger" data-action="ajax-uploader#delete"><i class="bi bi-trash-fill"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline-danger {% if not allow_delete %}d-none{% endif %}" data-ajax-uploader-target="delete" data-action="ajax-uploader#delete"><i class="bi bi-trash-fill"></i></button>
                 </div>
                 <a href="#" class="position-relative image-preview" target="_blank" data-ajax-uploader-target="link">
                     <span class="badge bg-dark position-absolute m-2" data-ajax-uploader-target="size"></span>
@@ -260,7 +260,7 @@
                         <span class="spinner-border spinner-border-sm" data-ajax-uploader-target="spinner" style="display: none;"></span>
                         <i class="bi bi-folder2-open" data-ajax-uploader-target="uploadIcon"></i>
                     </button>
-                    <button type="button" class="btn btn-sm btn-outline-danger" data-action="ajax-uploader#delete"><i class="bi bi-trash-fill"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-ajax-uploader-target="delete" data-action="ajax-uploader#delete"><i class="bi bi-trash-fill"></i></button>
                 </div>
             </div>
         {% endif %}
