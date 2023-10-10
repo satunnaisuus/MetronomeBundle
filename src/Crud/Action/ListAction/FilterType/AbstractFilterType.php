@@ -56,7 +56,6 @@ abstract class AbstractFilterType
                     $queryBuilder->join($alias . '.' . $filedName, $newAlias);
                 }
 
-                $queryBuilder->join($alias . '.' . $filedName, $newAlias);
                 $result = $alias . '.' . $filedName;
                 $alias = $newAlias;
 
