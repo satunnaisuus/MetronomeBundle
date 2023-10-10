@@ -44,12 +44,16 @@ export class DataTable extends EventTarget {
                 if (confirm(i.dataset.confirmationText)) {
                     let formData = new FormData();
                     formData.append('token', controller.element.dataset.csrf);
-                    fetch(i.href, {method: 'POST', body: formData}).then(() => {
-                        if (ajax) {
-                            controller.ajaxLoad(controller.element.dataset.url, onUpdate);
-                        } else {
-                            window.location.reload();
-                        }
+                    fetch(i.href, {method: 'POST', body: formData})
+                        .then(r => r.json())
+                        .then((data) => {
+                            if (data.redirect) {
+                                window.location.href = data.redirect;
+                            } else if (ajax) {
+                                controller.ajaxLoad(controller.element.dataset.url, onUpdate);
+                            } else {
+                                window.location.reload();
+                            }
                     });
                 }
             });
