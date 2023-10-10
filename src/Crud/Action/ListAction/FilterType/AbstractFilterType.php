@@ -51,6 +51,11 @@ abstract class AbstractFilterType
                 array_shift($parts);
                 $tempParts = $parts;
                 $newAlias = 'filter__' . $alias . '__' . $filedName;
+
+                if (! in_array($newAlias, $queryBuilder->getAllAliases())) {
+                    $queryBuilder->join($alias . '.' . $filedName, $newAlias);
+                }
+
                 $queryBuilder->join($alias . '.' . $filedName, $newAlias);
                 $result = $alias . '.' . $filedName;
                 $alias = $newAlias;
