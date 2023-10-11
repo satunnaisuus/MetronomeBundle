@@ -8,8 +8,8 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+use Symfony\Component\PropertyAccess\Exception\RuntimeException;
 
 class DataFetcher
 {
@@ -168,7 +168,7 @@ class DataFetcher
         foreach ($config->getColumns() as $column) {
             try {
                 $value = $this->propertyAccessor->getValue($entity, $column->getPropertyPath());
-            } catch (NoSuchPropertyException $exception) {
+            } catch (RuntimeException $exception) {
                 $value = null;
             }
 
