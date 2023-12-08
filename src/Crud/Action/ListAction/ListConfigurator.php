@@ -32,6 +32,8 @@ class ListConfigurator
 
     private ?array $defaultOrder = null;
 
+    private $rowClass = null;
+
     public function __construct(
         string $class,
         string $id,
@@ -193,5 +195,15 @@ class ListConfigurator
     public function getDefaultOrder(): ?array
     {
         return $this->defaultOrder;
+    }
+
+    public function getRowClass()
+    {
+        return $this->rowClass;
+    }
+
+    public function rowClass(?callable $rowClass): void
+    {
+        $this->rowClass = $rowClass;
     }
 }

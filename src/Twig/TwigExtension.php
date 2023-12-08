@@ -30,6 +30,7 @@ class TwigExtension extends AbstractExtension
             new TwigFunction('CrudFormHasErrors', [$this, 'crudFormHasErrors']),
             new TwigFunction('uploadedAsset', [$this, 'uploadedAsset']),
             new TwigFunction('json_decode', 'json_decode'),
+            new TwigFunction('executeCallable', [$this, 'executeCallable']),
         ];
     }
 
@@ -42,6 +43,11 @@ class TwigExtension extends AbstractExtension
             new TwigFilter('repeat', 'str_repeat'),
             new TwigFilter('urldecode', 'urldecode'),
         ];
+    }
+
+    public function executeCallable(callable $callable, $params = [])
+    {
+        return $callable(...$params);
     }
 
     public function recursiveArrayAccess($array, string $propertyPath)

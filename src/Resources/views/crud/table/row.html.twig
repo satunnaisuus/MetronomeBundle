@@ -1,4 +1,4 @@
-<tr data-role="row" data-id="{{ row.entity.id }}" data-name="{{ attribute(row.entity, '__toString') is defined ? row.entity : ('#' ~ row.entity.id) }}" data-parent="{{ parentId|default('') }}" class="data-table__row {% if parentId is defined %}d-none{% endif %}">
+<tr data-role="row" data-id="{{ row.entity.id }}" data-name="{{ attribute(row.entity, '__toString') is defined ? row.entity : ('#' ~ row.entity.id) }}" data-parent="{{ parentId|default('') }}" class="data-table__row {% if parentId is defined %}d-none{% endif %} {% if config.rowClass is not null %}{{ executeCallable(config.rowClass, [row.entity]) }}{% endif %}">
     {% if config.showCheckboxes %}
         <td class="data-table__cell data-table__cell--checkbox">
             <div class="form-check">
