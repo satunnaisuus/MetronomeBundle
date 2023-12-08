@@ -202,7 +202,7 @@ class ListConfigurator
         return $this->rowClass;
     }
 
-    public function rowClass(?callable $rowClass): void
+    public function setRowClass(?callable $rowClass): void
     {
         $this->rowClass = $rowClass;
     }
